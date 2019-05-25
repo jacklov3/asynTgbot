@@ -1,4 +1,6 @@
+#-*-coding:utf-8-*-
 import requests
+import time
 from config import APPID
 
 URL='http://api.openweathermap.org/data/2.5/weather?units=metric&APPID=%s&lang=zh_cn&q='%APPID
@@ -23,8 +25,8 @@ def get_weather(city):
 
             wind = '\t风速:%s\n'%(r['wind']['speed'])
             clouds = '\t云量:%s\n'%r['clouds']
-            dt = '\t数据计算时间:%s\n'%r['dt']
-            sys = '\t国家代码:%s  日出时间:%s  日落时间:%s'%(r['sys']['country'],r['sys']['sunrise'],r['sys']['sunset'])
+            dt = '\t数据计算时间:%s\n'%time.ctime(r['dt'])
+            sys = '\t国家代码:%s  日出时间:%s  日落时间:%s'%(r['sys']['country'],time.ctime(r['sys']['sunrise']),time.ctime(r['sys']['sunset']))
 
 
 
