@@ -13,14 +13,14 @@ import weather
 from aiogram import Bot, Dispatcher, executor, types
 from config import API_TOKEN
 
-#PROXY_URL = 'http://127.0.0.1:8001';
+PROXY_URL = 'http://127.0.0.1:8001';
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 
 # 初始化机器人和调度器
 
-bot = Bot(API_TOKEN)
+bot = Bot(API_TOKEN,proxy=PROXY_URL)
 dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start','help'])
@@ -33,9 +33,9 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(commands=['weather'])
 async def re_weather(message: types.Message):
         if len(message.text)==8:
-            await message.reply('你的用法好像有问题，应该是/weather 北京市')
+            await message.reply('你的用法好像有问题，应该是/weather 北京')
         else:
-            await message.reply(weather.get_weather(message.text.split()[1]))
+            await message.reply(weather.get_five_day_weather(message.text.split()[1]))
 
 
 @dp.message_handler()

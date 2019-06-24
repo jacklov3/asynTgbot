@@ -1,7 +1,9 @@
 #-*-coding:utf-8-*-
 import requests
 import time
+import json
 from config import APPID
+import csv
 
 URL='http://api.openweathermap.org/data/2.5/weather?units=metric&APPID=%s&lang=zh_cn&q='%APPID
 
@@ -33,5 +35,26 @@ def get_weather(city):
             weather_now = hello+coord+weather+ma+wind+clouds+dt+sys
             return weather_now
 
+def csvtojson():
+    with open('china-city-list.csv','r') as csvfile:
+        reader = csv.reader(csvfile)
+        for i in reader:
+            yield {
+                'name':i[2],
+                'id':i[0].strip('CN')
+            }
+
+
+
+def get_five_day_weather(city):
+    url='http://t.weather.sojson.com/api/weather/city/'
+    for item in csvtojson():
+        if item['name']==city:
+            response = requests.get(url+str(item['id']))
+            return response.text
+    else:
+        print('对不起，没有您要找的城市！')
+
+
 if __name__ == '__main__':
-    print(get_weather('杭州市'))
+    get_five_day_weather('赣州')
