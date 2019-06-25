@@ -51,10 +51,22 @@ def get_five_day_weather(city):
     for item in csvtojson():
         if item['name']==city:
             response = requests.get(url+str(item['id']))
-            return response.text
+            forecast = response.json()['data']['forecast']
+            result=""
+            for item in forecast:
+                date = item['ymd']+'\t'
+                week = item['week']+'\t'
+                high = item['high']+'\t'
+                low = item['low']+'\t'
+                wind = item['fx']+'\t'
+                weather = item['type']+'\t'
+                notice = item['notice']+'\t'
+                result +=date+week+high+low+wind+weather+notice+'\n'
+            return result
+
     else:
         print('对不起，没有您要找的城市！')
 
 
 if __name__ == '__main__':
-    get_five_day_weather('赣州')
+    print(get_five_day_weather('瑞金'))

@@ -9,9 +9,10 @@ import aiohttp
 import logging
 import ssl
 
-import weather
+import weather,chatbot
 from aiogram import Bot, Dispatcher, executor, types
 from config import API_TOKEN
+
 
 PROXY_URL = 'http://127.0.0.1:8001';
 
@@ -39,8 +40,9 @@ async def re_weather(message: types.Message):
 
 
 @dp.message_handler()
-async def echo(message: types.Message):
-    await bot.send_message(message.chat.id, '轻，人家理解不了您的请求呢😄 \t'+message.text)
+async def chat(message: types.Message):
+    await message.reply(chatbot.smartbot(message.text))
+    #await bot.send_message(message.chat.id, '轻，人家理解不了您的请求呢😄 \t'+message.text)
 
 if __name__=='__main__':
     executor.start_polling(dp, skip_updates=True)

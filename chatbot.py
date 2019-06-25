@@ -11,7 +11,7 @@ import requests
 def smartbot(msg):
     url='http://api.qingyunke.com/api.php?key=free&appid=0&msg='
     response = requests.get(url+str(msg))
-    return response.text['content']
+    return response.json()['content'].replace('{br}','\n')
 
 if __name__=='__main__':
-    print(smartbot('赣州天气'))
+    print(smartbot('哈哈'))
